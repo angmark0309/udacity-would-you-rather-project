@@ -69,16 +69,20 @@ class Login extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        this.state.authedUser.length > 0 
-        ? this.props.dispatch(setAuthedUser(this.state.authedUser))
-        : null;
+        if(this.state.authedUser.length > 0)
+        {
+            this.props.dispatch(setAuthedUser(this.state.authedUser))
+        } 
+
     }
 
     render() {
-        const {classes, authedUser} = this.props
+        const {classes, authedUser, location} = this.props
+        let referrer = location.state !== undefined ?
+            location.state.referrer.pathname : "/"
 
-        if(authedUser !== null) {
-            return <Redirect to='/'/>
+        if(authedUser) {
+            return <Redirect to={referrer}/>
         }
         return (
             <Fragment>

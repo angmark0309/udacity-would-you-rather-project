@@ -23,7 +23,9 @@ class Home extends Component {
     };
 
     handleChange = (event, value) => {
-        this.setState({ value });
+        if (value !== this.state.value) {
+            this.setState({ value });
+        }
     };
 
 

@@ -17,7 +17,10 @@ function PrivateRoute({ component: Component, authed, ...rest }) {
       {...rest}
       render={(props) => authed
         ? <Component {...props} />
-        : <Redirect to='/login' />}
+        : <Redirect to={{
+          pathname: "/login",
+          state: { referrer: props.location }
+          }}  />}
     />
   )
 }
@@ -38,7 +41,7 @@ class App extends Component {
               <div>
               <Switch>
                 <Route path='/login' component={Login} />
-                <PrivateRoute authed={this.props.authedUser} path='/questions/:id' component={QuestionDetails} />
+                <PrivateRoute authed={this.props.authedUser} exact path='/questions/:id' component={QuestionDetails} />
                 <PrivateRoute authed={this.props.authedUser}   exact path='/' component={Home}/>
                 <PrivateRoute authed={this.props.authedUser} exact path='/leaderboard' component={LeaderBoard} />
                 <PrivateRoute authed={this.props.authedUser} exact path='/add' component={AddQuestion} />

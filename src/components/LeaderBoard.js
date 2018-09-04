@@ -22,16 +22,15 @@ const styles = theme => ({
     }
 });
 
-function LeaderBoard(props) {
-    const { users, sortedUsers, classes } = props
+function LeaderBoard({ users, sortedUsers, classes }) {
     return (
         <Paper className={classes.root}>
             <Table className={classes.table}>
                 <TableHead>
                     <TableRow>
                         <TableCell>User</TableCell>
-                        <TableCell numeric>Questions Asked</TableCell>
                         <TableCell numeric>Questions Answered</TableCell>
+                        <TableCell numeric>Questions Asked</TableCell>
                         <TableCell numeric>Total</TableCell>
                     </TableRow>
                 </TableHead>

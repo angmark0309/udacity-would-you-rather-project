@@ -16,6 +16,7 @@ import Radio  from '@material-ui/core/Radio'
 import  WhereToVote  from '@material-ui/icons/WhereToVote'
 import Avatar from '@material-ui/core/Avatar'
 import { handleSaveAnsweredQuestion } from '../actions/questions'
+import { Redirect } from 'react-router-dom'
 
 const styles = theme => ({
   formControl: {
@@ -44,6 +45,11 @@ class QuestionDetails extends Component {
     }
     render() {
       const { authorName, avatarURL, questionDetails, classes, id, optionOneVotes, optionTwoVotes } = this.props
+      
+      if (!questionDetails) {
+        return <Redirect to='/404' />
+      }
+
       const optionOneVoteCount = questionDetails.optionOne.votes.length
       const optionTwoVoteCount = questionDetails.optionTwo.votes.length
       const optionOneAndTwoCount = optionOneVoteCount + optionTwoVoteCount
@@ -160,18 +166,24 @@ class QuestionDetails extends Component {
 function mapStateToProps({ authedUser, users, questions }, props) {
   const {id} = props.match.params
   const questionDetails = questions[id]
-  const authorName = users[questionDetails.author].name
-  const avatarURL = users[questionDetails.author].avatarURL
-  const optionOneVotes = questionDetails.optionOne.votes.includes(authedUser)
-  const optionTwoVotes = questionDetails.optionTwo.votes.includes(authedUser)
+  if (questionDetails) {
+    const authorName = users[questionDetails.author].name
+    const avatarURL = users[questionDetails.author].avatarURL
+    const optionOneVotes = questionDetails.optionOne.votes.includes(authedUser)
+    const optionTwoVotes = questionDetails.optionTwo.votes.includes(authedUser)
+    return {
+      authedUser,
+      avatarURL,
+      questionDetails,
+      authorName,
+      id,
+      optionOneVotes,
+      optionTwoVotes
+    }
+  }
+  else
   return {
-    authedUser,
-    avatarURL,
-    questionDetails,
-    authorName,
-    id,
-    optionOneVotes,
-    optionTwoVotes
+    questionDetails : false
   }
 }
 
