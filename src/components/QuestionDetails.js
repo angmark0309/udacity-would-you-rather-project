@@ -82,6 +82,7 @@ class QuestionDetails extends Component {
                         variant="contained"
                         color="primary"
                         type="submit"
+                        disabled={this.state.value.length <= 0}
                       >
                         Submit
                 </Button>
